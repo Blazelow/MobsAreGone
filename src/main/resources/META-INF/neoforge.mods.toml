@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+    modId="mobsaregone"
+    version="${mod_version}"
+    displayName="Mobs Are Gone"
+    description='''
+MobsAreGone lets you control which entities are allowed to spawn in your world.
+Add entity IDs to config/mobsaregone-blacklist.json to prevent them from spawning.
+'''
+    authors="Blazelow"
+    logoFile="mobsaregone.png"
+
+[[dependencies.mobsaregone]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.mobsaregone]]
+    modId="minecraft"
+    type="required"
+    versionRange="[${minecraft_version},)"
+    ordering="NONE"
+    side="BOTH"
