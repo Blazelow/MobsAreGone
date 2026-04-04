@@ -6,7 +6,7 @@
 
 On first server start, a config file is created at:
 ```
-config/mobsaregone-blocked.json
+config/mobsaregone-blacklist.json
 ```
 
 Add any entity ID to the list to prevent it from spawning. Example:
