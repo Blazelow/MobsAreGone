@@ -1,42 +1,31 @@
-# MobsAreGone
+# **Mobs Are Gone**
 
-**MobsAreGone** is a NeoForge 1.21.1 mod that lets you control which entities are allowed to spawn in your world.
+**Mobs Are Gone** is a mod that gives you full control over which entities are allowed to spawn in your world. No complex menus — just a simple JSON config file. Add any entity ID to **config/mobsaregone-blacklist.json** and that mob will never spawn again. Remove it from the list to allow it back. It works for any entity, including mobs from other mods.
 
-## How it works
+# **Features:**
 
-On first server start, a config file is created at:
-```
-config/mobsaregone-blocked.json
-```
+* Block any entity from spawning via a simple JSON config
 
-Add any entity ID to the list to prevent it from spawning. Example:
-```json
-[
-  "minecraft:phantom",
-  "minecraft:creeper",
-  "minecraft:enderman"
-]
-```
+* Works with natural spawns, mob spawners, and spawn eggs
 
-Restart the server after editing the file for changes to take effect.
+* Supports modded entities — just add the mod's entity ID
 
-Any valid entity ID works, including entities from other mods (e.g. `mymod:myentity`).
-Unknown IDs are skipped with a warning in the log.
+* Ships with a default blacklist containing all vanilla mobs pre-configured — just remove any mob you want to keep!
 
-## Installation
+* Villagers and Wandering Traders are excluded from the default blacklist and will spawn normally
 
-Drop the `.jar` into your `mods/` folder. Requires NeoForge for Minecraft 1.21.1.
+* Reload the blacklist in-game without restarting using **/mobsaregone reload** (requires OP)
 
-## Building from source
+* When **minecraft:ender_dragon** is in the blacklist, the Ender Dragon boss bar is automatically hidden
 
-Requires JDK 21.
+* Lightweight — no performance impact, no dependencies beyond NeoForge
 
-```bash
-gradle build --no-daemon
-```
+* Perfect for **Cobblemon** players who want a pure Pokémon experience without vanilla Minecraft mobs getting in the way!
 
-Output: `build/libs/MobsAreGone-1.0.0.jar`
+#  **How to use:**
 
-## License
-
-MIT — © 2025 Blazelow
+* Install the mod
+* Start your server or world once to generate the config
+* Edit **config/mobsaregone-blacklist.json**
+* Add or remove entity IDs like **"minecraft:creeper"** or **"minecraft:phantom"**
+* Restart to apply changes — or run **/mobsaregone** reload to apply instantly without restarting!
