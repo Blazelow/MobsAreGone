@@ -2,9 +2,9 @@ name: Build MobsAreGone
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "26.1-neoforge" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "26.1-neoforge" ]
   workflow_dispatch:
 
 jobs:
