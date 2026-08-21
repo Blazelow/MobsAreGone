@@ -1,13 +1,13 @@
 plugins {
     id 'java'
-    id 'net.neoforged.gradle.userdev' version '7.0.145'
+    id 'net.neoforged.gradle.userdev' version '7.1.21'
 }
 
 version = '1.0.0'
 group = 'com.blazelow.mobsaregone'
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
     withSourcesJar()
 }
 
@@ -30,13 +30,13 @@ runs {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:21.1.172"
+    implementation "net.neoforged:neoforge:26.1.2.97-beta"
 }
 
 tasks.withType(ProcessResources).configureEach {
     var replaceProperties = [
         mod_version       : version,
-        minecraft_version : '1.21.1'
+        minecraft_version : '26.1.2'
     ]
     inputs.properties replaceProperties
     filesMatching(['META-INF/neoforge.mods.toml']) {

@@ -9,7 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.end.EndDragonFight;
+import net.minecraft.world.level.dimension.end.EnderDragonFight;
 import net.minecraft.server.level.ServerBossEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -38,7 +38,7 @@ public class BossBarHandler {
     }
 
     /**
-     * Keep hiding it every tick in case EndDragonFight resets visibility.
+     * Keep hiding it every tick in case EnderDragonFight resets visibility.
      * Only runs if the dragon is blacklisted.
      */
     @SubscribeEvent
@@ -63,7 +63,7 @@ public class BossBarHandler {
     }
 
     private static void hideDragonBar(ServerLevel level) {
-        EndDragonFight fight = level.getDragonFight();
+        EnderDragonFight fight = level.getDragonFight();
         if (fight == null) return;
         ServerBossEvent bar = getDragonBossEvent(fight);
         if (bar != null && bar.isVisible()) {
@@ -71,9 +71,9 @@ public class BossBarHandler {
         }
     }
 
-    private static ServerBossEvent getDragonBossEvent(EndDragonFight fight) {
+    private static ServerBossEvent getDragonBossEvent(EnderDragonFight fight) {
         try {
-            for (Field field : EndDragonFight.class.getDeclaredFields()) {
+            for (Field field : EnderDragonFight.class.getDeclaredFields()) {
                 if (field.getType() == ServerBossEvent.class) {
                     field.setAccessible(true);
                     return (ServerBossEvent) field.get(fight);

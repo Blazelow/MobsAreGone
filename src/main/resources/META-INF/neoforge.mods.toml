@@ -16,13 +16,13 @@ Add entity IDs to config/mobsaregone-blacklist.json to prevent them from spawnin
 [[dependencies.mobsaregone]]
     modId="neoforge"
     type="required"
-    versionRange="[21.1,)"
+    versionRange="[26.1,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.mobsaregone]]
     modId="minecraft"
     type="required"
-    versionRange="[${minecraft_version},)"
+    versionRange="[26.1.2,)"
     ordering="NONE"
     side="BOTH"
