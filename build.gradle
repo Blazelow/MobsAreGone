@@ -30,7 +30,7 @@ runs {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:26.1.2.97-beta"
+    implementation "net.neoforged:neoforge:26.1.2.97"
 }
 
 tasks.withType(ProcessResources).configureEach {
