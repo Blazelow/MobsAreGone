@@ -24,7 +24,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: '9.8'
+          gradle-version: '9.7.1'
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
