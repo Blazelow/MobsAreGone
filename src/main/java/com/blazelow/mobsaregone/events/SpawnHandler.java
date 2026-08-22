@@ -3,8 +3,6 @@ package com.blazelow.mobsaregone.events;
 import com.blazelow.mobsaregone.MobsAreGone;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,16 +13,11 @@ import net.neoforged.neoforge.event.level.ChunkEvent;
 
 import java.util.List;
 
-@EventBusSubscriber(
-    modid = MobsAreGone.MOD_ID,
-    bus = EventBusSubscriber.Bus.GAME
-)
+@EventBusSubscriber(modid = MobsAreGone.MOD_ID)
 public class SpawnHandler {
 
     /**
      * Blocks normal mob spawning.
-     *
-     * This handles the normal Minecraft mob spawning pipeline.
      */
     @SubscribeEvent
     public static void onFinalizeSpawn(FinalizeSpawnEvent event) {
@@ -36,8 +29,8 @@ public class SpawnHandler {
     /**
      * Blocks entities when they attempt to join the world.
      *
-     * This also catches things such as spawn eggs and other
-     * entity creation paths that reach EntityJoinLevelEvent.
+     * This catches spawn eggs and other entity creation paths
+     * that reach EntityJoinLevelEvent.
      */
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
@@ -53,15 +46,15 @@ public class SpawnHandler {
     }
 
     /**
-     * Removes blacklisted entities that were created while a chunk
-     * was being generated or loaded.
+     * Removes blacklisted entities that were created during
+     * chunk generation/loading.
      *
-     * Some persistent entities, especially animals such as bees,
-     * rabbits, etc., can be created during chunk generation rather
-     * than going through the normal FinalizeSpawnEvent path.
+     * This is specifically intended to catch persistent mobs
+     * such as bees and rabbits that can appear when a new chunk
+     * is generated.
      *
-     * This only checks the newly loaded chunk, rather than scanning
-     * the entire world every tick.
+     * Only the newly loaded chunk is checked. There is no
+     * per-tick world-wide entity scan.
      */
     @SubscribeEvent
     public static void onChunkLoad(ChunkEvent.Load event) {
@@ -69,7 +62,6 @@ public class SpawnHandler {
             return;
         }
 
-        // Nothing to do if the blacklist is empty.
         if (MobsAreGone.getBlockedCount() == 0) {
             return;
         }
@@ -91,7 +83,7 @@ public class SpawnHandler {
         );
 
         List<Entity> blockedEntities = level.getEntities(
-            null,
+            (Entity) null,
             chunkBounds,
             entity -> MobsAreGone.isBlocked(entity.getType())
         );
