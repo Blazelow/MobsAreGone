@@ -14,7 +14,7 @@ public class ReloadCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
             Commands.literal("mobsaregone")
-                .requires(Commands.hasPermission(2))
+                .requires(Commands.hasPermission(PermissionCheck.Require.of(2)))
                 .then(Commands.literal("reload")
                     .executes(ctx -> {
                         MobsAreGone.setBlockedEntities(new HashSet<>(BlockedEntitiesConfig.load()));
