@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
-import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -29,10 +29,8 @@ public class SpawnHandler {
     }
 
     /**
-     * Blocks entities when they attempt to join the world.
-     *
-     * This handles boss entities and other entity creation paths
-     * that reach EntityJoinLevelEvent.
+     * Blocks blacklisted boss entities when they attempt
+     * to join the world.
      */
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
@@ -52,11 +50,8 @@ public class SpawnHandler {
      * Removes blacklisted entities that were created during
      * chunk generation/loading.
      *
-     * This catches persistent mobs such as animals that can be
-     * generated as part of a newly generated chunk.
-     *
-     * Only the newly loaded chunk is checked. There is no
-     * per-tick world-wide entity scan.
+     * Only the loaded chunk is checked. There is no per-tick
+     * world-wide entity scan.
      */
     @SubscribeEvent
     public static void onChunkLoad(ChunkEvent.Load event) {
@@ -68,7 +63,7 @@ public class SpawnHandler {
             return;
         }
 
-        LevelChunk chunk = event.getChunk();
+        ChunkAccess chunk = event.getChunk();
 
         int minX = chunk.getPos().getMinBlockX();
         int minZ = chunk.getPos().getMinBlockZ();
