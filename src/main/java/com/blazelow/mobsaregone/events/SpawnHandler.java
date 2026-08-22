@@ -1,8 +1,6 @@
 package com.blazelow.mobsaregone.events;
 
 import com.blazelow.mobsaregone.MobsAreGone;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -22,15 +20,14 @@ public class SpawnHandler {
     }
 
     /**
-     * Handles boss mobs (Ender Dragon, Wither) which bypass FinalizeSpawnEvent.
-     * The boss bar is hidden via the bundled resource pack (transparent textures).
+     * Final safety net: prevents any blacklisted entity from entering the level,
+     * including entities that bypass FinalizeSpawnEvent.
      */
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
 
-        if ((event.getEntity() instanceof EnderDragon || event.getEntity() instanceof WitherBoss)
-                && MobsAreGone.isBlocked(event.getEntity().getType())) {
+        if (MobsAreGone.isBlocked(event.getEntity().getType())) {
             event.setCanceled(true);
         }
     }
