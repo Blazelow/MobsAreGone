@@ -40,7 +40,7 @@ public class MobsAreGone {
         return blockedEntities.size();
     }
 
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+    @EventBusSubscriber(modid = MOD_ID)
     public static class GameEvents {
 
         @SubscribeEvent

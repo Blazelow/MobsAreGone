@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.fml.loading.FMLPaths;
 
@@ -65,7 +65,7 @@ public class BlockedEntitiesConfig {
 
     private static Optional<EntityType<?>> parseEntityType(String id) {
         try {
-            ResourceLocation rl = ResourceLocation.parse(id);
+            Identifier rl = Identifier.parse(id);
             Optional<EntityType<?>> type = BuiltInRegistries.ENTITY_TYPE.getOptional(rl);
             if (type.isEmpty()) {
                 MobsAreGone.LOGGER.warn("MobsAreGone >> Unknown entity '{}' — skipping.", id);

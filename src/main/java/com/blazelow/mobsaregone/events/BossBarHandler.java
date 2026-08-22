@@ -3,7 +3,7 @@ package com.blazelow.mobsaregone.events;
 import com.blazelow.mobsaregone.MobsAreGone;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -19,11 +19,11 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.lang.reflect.Field;
 
-@EventBusSubscriber(modid = MobsAreGone.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = MobsAreGone.MOD_ID)
 public class BossBarHandler {
 
     private static final ResourceKey<Level> THE_END = ResourceKey.create(
-        Registries.DIMENSION, ResourceLocation.withDefaultNamespace("the_end")
+        Registries.DIMENSION, Identifier.withDefaultNamespace("the_end")
     );
 
     /**
