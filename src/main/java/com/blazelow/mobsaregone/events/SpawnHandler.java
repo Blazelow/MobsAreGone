@@ -3,8 +3,6 @@ package com.blazelow.mobsaregone.events;
 import com.blazelow.mobsaregone.MobsAreGone;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,6 +18,9 @@ public class SpawnHandler {
 
     /**
      * Blocks normal mob spawning.
+     *
+     * This is the primary protection for natural spawning,
+     * including mobs created during chunk/world generation.
      */
     @SubscribeEvent
     public static void onFinalizeSpawn(FinalizeSpawnEvent event) {
@@ -29,8 +30,11 @@ public class SpawnHandler {
     }
 
     /**
-     * Blocks blacklisted boss entities when they attempt
-     * to join the world.
+     * Blocks ANY blacklisted entity from joining the world.
+     *
+     * This is intentionally not restricted to bosses.
+     * It catches entities created through spawn eggs, commands,
+     * unusual modded spawning paths, and other entity-creation paths.
      */
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
@@ -40,18 +44,17 @@ public class SpawnHandler {
 
         Entity entity = event.getEntity();
 
-        if ((entity instanceof EnderDragon || entity instanceof WitherBoss)
-                && MobsAreGone.isBlocked(entity.getType())) {
+        if (MobsAreGone.isBlocked(entity.getType())) {
             event.setCanceled(true);
         }
     }
 
     /**
-     * Removes blacklisted entities that were created during
-     * chunk generation/loading.
+     * Removes blacklisted entities that may have survived
+     * the normal spawn/join events during chunk generation or loading.
      *
-     * Only the loaded chunk is checked. There is no per-tick
-     * world-wide entity scan.
+     * The cleanup is deliberately delayed because NeoForge warns that
+     * ChunkEvent.Load can fire before the chunk reaches FULL status.
      */
     @SubscribeEvent
     public static void onChunkLoad(ChunkEvent.Load event) {
@@ -71,22 +74,29 @@ public class SpawnHandler {
         int maxZ = chunk.getPos().getMaxBlockZ() + 1;
 
         AABB chunkBounds = new AABB(
-            minX,
-            level.getMinBuildHeight(),
-            minZ,
-            maxX,
-            level.getMaxBuildHeight(),
-            maxZ
+                minX,
+                level.getMinBuildHeight(),
+                minZ,
+                maxX,
+                level.getMaxBuildHeight(),
+                maxZ
         );
 
-        List<Entity> blockedEntities = level.getEntities(
-            (Entity) null,
-            chunkBounds,
-            entity -> MobsAreGone.isBlocked(entity.getType())
-        );
+        /*
+         * Do the actual entity lookup after the chunk-load event has
+         * finished. This avoids interacting with the entity/chunk system
+         * while the chunk is still being promoted.
+         */
+        level.getServer().execute(() -> {
+            List<Entity> blockedEntities = level.getEntities(
+                    (Entity) null,
+                    chunkBounds,
+                    entity -> MobsAreGone.isBlocked(entity.getType())
+            );
 
-        for (Entity entity : blockedEntities) {
-            entity.discard();
-        }
+            for (Entity entity : blockedEntities) {
+                entity.discard();
+            }
+        });
     }
 }
