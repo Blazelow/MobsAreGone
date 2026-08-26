@@ -12,10 +12,7 @@ license="MIT"
     '''
     authors="Blazelow"
     logoFile="mobsaregone.png"
-
-[[mixins]]
-    config="mobsaregone.mixins.json"
-
+    
 [[dependencies.mobsaregone]]
     modId="neoforge"
     type="required"
